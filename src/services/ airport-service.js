@@ -1,16 +1,16 @@
 const { StatusCodes } = require('http-status-codes');
-let { AirplaneRepository } = require('../repositories')
+let { AirportRepository } = require('../repositories')
 let AppError = require('../utils/errors/app-error')   
 
 
 
-let airplaneRepository = new AirplaneRepository();
+let airportRepository = new AirportRepository();
 
 
-async function createAirplane(data) {
+async function createAirport(data) {
     try {
-        let airplane = await airplaneRepository.create(data);
-        return airplane;
+        let airport= await airportRepository.create(data);
+        return airport;
     } catch (error) {
         if (error.name == 'SequelizeValidationError') {
             let explanation = []
@@ -19,22 +19,22 @@ async function createAirplane(data) {
             });
             throw new AppError(explanation, StatusCodes.BAD_REQUEST)
         }
-        throw new AppError('cannot create a new airplane object', StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError('cannot create a new airport object', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
-async function getAirplanes() {
+async function getAirports() {
     try {
-        let airplanes = await airplaneRepository.getAll();
-        return airplanes;
+        let airports = await airportRepository.getAll();
+        return airports;
     } catch (error) {
-        throw new AppError('cannot fetch data of all the airplanes', StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError('cannot fetch data of all the airports', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
-async function getAirplane(id) {
+async function getAirport(id) {
     try {
-        let airplane = await airplaneRepository.get(id);
-        if (!airplane) {
+        let airport = await airportRepository.get(id);
+        if (!airport) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
         return airplane
@@ -42,15 +42,15 @@ async function getAirplane(id) {
         if (error.statusode = StatusCodes.NOT_FOUND) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
-        throw new AppError('cant fetch airplane', StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError('cant fetch airport', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 
 }
 
-async function updateAirplane(id, data) {
+async function updateAirport(id, data) {
     try {
-        let updateAirplane = await airplaneRepository.update(id, data)
-        if (!updateAirplane[0]) {
+        let updateAirport = await airportRepository.update(id, data)
+        if (!updateAirport[0]) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
         return updateAirplane
@@ -58,16 +58,16 @@ async function updateAirplane(id, data) {
         if (error.statusCode = StatusCodes.NOT_FOUND) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
-        throw new AppError('cant fetch airplane', StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError('cant fetch updateAirport', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
 
 
-async function destroyAirplane(id) {
+async function destroyAirport(id) {
     try {
-        let destroyAirplane = await airplaneRepository.destroy(id)
-        if (!destroyAirplane) {
+        let destroyAirport= await airportRepository.destroy(id)
+        if (!destroyAirport) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
         return destroyAirplane
@@ -75,17 +75,16 @@ async function destroyAirplane(id) {
         if (error.statusCode = StatusCodes.NOT_FOUND) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
-        throw new AppError('cant fetch airplane', StatusCodes.INTERNAL_SERVER_ERROR)
+        throw new AppError('cant fetch airport', StatusCodes.INTERNAL_SERVER_ERROR)
     }
 }
 
 
 
 module.exports = {
-    createAirplane,
-    getAirplanes,
-    getAirplane,
-    updateAirplane,
-    destroyAirplane,
-    
+    createAirport,
+    getAirports,
+    getAirport,
+    updateAirport,
+    destroyAirport,    
 }      
