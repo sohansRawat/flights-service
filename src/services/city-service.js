@@ -50,14 +50,11 @@ async function getCity(id) {
 async function updateCity(id, data) {
     try {
         let updateCity = await cityRepository.update(id, data)
-        console.log('updatecity',updateCity[0])
         if (!updateCity[0]) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }
-        console.log('sohan bhai run he ne hua')
         return updateCity
     }catch(error){
-        console.log('error',error.statusCode)
         if (error.statusCode = StatusCodes.NOT_FOUND) {
             throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
         }

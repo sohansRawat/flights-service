@@ -67,8 +67,34 @@ async function getFlights(query){
     }
 }
 
+async function getFlight(id){
+    try {
+        let flight = await flightRepository.get(id);
+        if (!flight) {
+            throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
+        }
+        return flight
+    } catch (error) {
+        if (error.statusode = StatusCodes.NOT_FOUND) {
+            throw new AppError('Not able to find the resource', StatusCodes.NOT_FOUND)
+        }
+        throw new AppError('cant fetch flight', StatusCodes.INTERNAL_SERVER_ERROR)
+    }
 
+}
+
+async function updateSeats(data){
+    try{
+        const response=await flightRepository.updateRemaingSeats(data.flighId,data.seats,data.dec)
+        return response
+    }catch(error){
+        console.log('error',error)
+        throw new AppError('cant update flight', StatusCodes.INTERNAL_SERVER_ERROR)
+    }
+}
 module.exports = {
     createFlight, 
     getFlights,  
+    getFlight,
+    updateSeats
 }      

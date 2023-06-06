@@ -9,9 +9,9 @@ router.post('/' , FlightMiddleware.validatCreateRequest,FlightController.createF
 
 router.get('/' , FlightController.getFlights)
 
-// router.get('/:id' , AirplaneController.getAirplane)
+router.get('/:id' , FlightController.getFlight)
 
-// router.patch('/',AirplaneController.updateAirplane)
+router.patch('/:id/seats',FlightMiddleware.validateUpdateSeatsRequest,FlightController.updateSeats )
 
 // router.delete('/:id' , AirplaneController.destroyAirplane)
 

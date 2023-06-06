@@ -2,7 +2,9 @@ let crudRepository=require('./crud-repository')
 let {Flight,Airplane,Airport,City}=require('../models')
 //let {comingdata}=require('../models')
 let {Sequelize}=require('sequelize')
+let db=require('../models')
 
+let {addRowLocksOnFlights}=require('./queries')
 
 class FlightRepository extends crudRepository{
     constructor(){
@@ -46,6 +48,19 @@ class FlightRepository extends crudRepository{
             ]
         })
         return response
+    }
+
+    async updateRemaingSeats(flightId,seats,dec='true'){
+        await db.sequelize.query(addRowLocksOnFlights(flightId))
+        const flight=await Flight.findByPk(flightId)
+        console.log('dec',dec)
+        if(dec === 'true'){
+            const response=await flight.decrement('totalSeats',{by:seats})
+            return response
+        }else if(dec==='false'){
+            const response=await flight.increment('totalSeats',{by:seats})
+            return response
+        }else{}
     }
 }
 
